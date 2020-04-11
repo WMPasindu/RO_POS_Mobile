@@ -1,0 +1,6 @@
+
+hsquid:UselessImportCheck"8Remove this unused import 'androidx.lifecycle.Observer'.(ÒÁˆÉşÿÿÿÿ8•¹÷âö-
+dsquid:UselessImportCheck	"9Remove this unused import 'androidx.annotation.Nullable'.(¾Èêš8•¹÷âö-
+xsquid:S1450"\Remove the "homeViewModel" field and declare it as a local variable in the relevant methods.(¿­¶üÿÿÿÿ
+dsquid:UselessImportCheck"4Remove this unused import 'android.widget.TextView'.(„Ë‚ˆÿÿÿÿÿ8•¹÷âö-
+squid:S00116 "[Rename this field "recycler_popular" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÆÈâËşÿÿÿÿ8Êüâö-

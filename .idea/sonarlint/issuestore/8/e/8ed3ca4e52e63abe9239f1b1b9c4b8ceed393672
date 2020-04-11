@@ -1,0 +1,12 @@
+
+psquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”¶•¼8ä Åàö-
+rsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ï„Ÿ‹
+usquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±¼¿Áúÿÿÿÿ8”ÿÅàö-
+vsquid:S00116"RRename this field "food_id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(øªÀ¡úÿÿÿÿ8´ùÃàö-
+rsquid:S00100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±¼¿Áúÿÿÿÿ8”ÿÅàö-
+psquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”¶•¼8ä Åàö-
+lsquid:S00100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œê‚8”ÿÅàö-
+msquid:S00100 "NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(·•§ö8”ÿÅàö-
+rsquid:S00100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Â²§Ÿúÿÿÿÿ8”ÿÅàö-
+qsquid:S00116"RRename this field "menu_id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•°µ8´ùÃàö-
+psquid:S00117 "QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(·•§ö8”ÿÅàö-

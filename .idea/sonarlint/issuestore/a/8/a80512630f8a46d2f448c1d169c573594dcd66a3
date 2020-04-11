@@ -1,0 +1,5 @@
+
+xsquid:S00116"YRename this field "img_best_deals" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ú“–Ô8öÜóåö-
+}squid:S00116"YRename this field "txt_best_deals" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ä­Ğûıÿÿÿÿ8À‹øåö-
+zsquid:UselessImportCheck"JRemove this unused import 'com.asksira.loopingviewpager.LoopingViewPager'.(ıÏ¸×ùÿÿÿÿ8º®àåö-
+rsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(áÍË›

@@ -1,0 +1,9 @@
+
+Osquid:S1444"1Make this "public static currentUser" field final(°É £8Õ§©ö-
+Š"squid:ClassVariableVisibilityCheck"VMake selectFood a static final constant or non-public and provide accessors if needed.(›ÀÉ8•Ö„Ğú-
+Msquid:S1444"0Make this "public static selectFood" field final(›ÀÉ8•Ö„Ğú-
+‘"squid:ClassVariableVisibilityCheck"\Make categorySelected a static final constant or non-public and provide accessors if needed.(èŒê¢8¾ñÔÆú-
+rsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ö³¤È
+Tsquid:S1444"6Make this "public static categorySelected" field final(èŒê¢8¾ñÔÆú-
+Œ"squid:ClassVariableVisibilityCheck"WMake currentUser a static final constant or non-public and provide accessors if needed.(°É £8Õ§©ö-
+]squid:S1118":Add a private constructor to hide the implicit public one.(âŠ°ÿÿÿÿÿ8¬Òö-

@@ -1,0 +1,34 @@
+
+ysquid:S00116Y"URename this field "btn_rating" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(…¿şƒøÿÿÿÿ8°Ü€.
+xsquid:S00116g"YRename this field "rdi_group_size" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÿÎøï8°Ü€.
+Ksquid:S1602›",Remove useless curly braces around statement(Ú•¸Ú8çÓÜ€.
+]squid:S1155¶">Use isEmpty() to check whether the collection is empty or not.(ÕÇ¢Ó8çÓÜ€.
+ squid:S1186“"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(úÑ¯¤8«ÒâÜ€.
+Psquid:S1602¹",Remove useless curly braces around statement(«¤„ÿÿÿÿÿ8«ÒâÜ€.
+psquid:S00117¨"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÆŞı8çÓÜ€.
+Lsquid:S1604Ï"(Make this anonymous inner class a lambda(„¬é¿øÿÿÿÿ8çÓÜ€.
+usquid:S1450J"WRemove the "unbinder" field and declare it as a local variable in the relevant methods.(ı«ƒ8°Ü€.
+]squid:S1155Ò">Use isEmpty() to check whether the collection is empty or not.(‹öûÏ8çÓÜ€.
+squid:S00116k"iRename this field "chip_group_user_selected_addon" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–›óıÿÿÿÿ8°Ü€.
+Ksquid:S1612›",Replace this lambda with a method reference.(Ú•¸Ú8çÓÜ€.
+wsquid:S00116U"SRename this field "img_food" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(€ƒ™ÿÿÿÿÿ8°Ü€.
+xsquid:S00116["TRename this field "food_name" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Š¬³Úûÿÿÿÿ8°Ü€.
+|squid:S00116a"XRename this field "number_button" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨¾×¼ÿÿÿÿÿ8°Ü€.
+Psquid:S1602",Remove useless curly braces around statement(Î‰”Šıÿÿÿÿ8çÓÜ€.
+Usquid:S2696ı"6Make the enclosing method "static" or remove this set.(†Œ8çÓÜ€.
+ysquid:S00116R"URename this field "edt_search" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Öş„©øÿÿÿÿ8°Ü€.
+_squid:S1854¸"@Remove this useless assignment to local variable "displayPrice".(ˆùˆ­8çÓÜ€.
+Jsquid:S1068J",Remove this unused "unbinder" private field.(ı«ƒ8°Ü€.
+tsquid:S00116]"URename this field "food_price" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†½ÿ·8°Ü€.
+ squid:S1186¤"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(úÑ¯¤8«ÒâÜ€.
+Psquid:S1602ş",Remove useless curly braces around statement(ê«æñùÿÿÿÿ8çÓÜ€.
+esquid:S1192Û"FDefine a constant instead of duplicating this literal "(+Rs." 3 times.(Ù’¸Ã8çÓÜ€.
+Isquid:S1659¸"*Declare "displayPrice" on a separate line.(ˆùˆ­8çÓÜ€.
+]squid:S1155»">Use isEmpty() to check whether the collection is empty or not.(øÆêñ8çÓÜ€.
+squid:S00116Q"[Rename this field "chip_group_addon" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğ¤åúÿÿÿÿ8‰³êÿ-
+|squid:S00116i"XRename this field "img_add_addon" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¬³äœúÿÿÿÿ8°Ü€.
+Psquid:S1602È",Remove useless curly braces around statement(«¤„ÿÿÿÿÿ8«ÒâÜ€.
+Psquid:S1612",Replace this lambda with a method reference.(Î‰”Šıÿÿÿÿ8çÓÜ€.
+zsquid:S00116_"[Rename this field "food_description" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Èíš8°Ü€.
+]squid:S1155Ã">Use isEmpty() to check whether the collection is empty or not.(Ç·Í8çÓÜ€.
+gsquid:HiddenFieldCheckú"=Rename "ratingBar" which hides the field declared at line 98.(Ô£Ùª8çÓÜ€.

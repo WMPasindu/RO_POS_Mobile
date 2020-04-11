@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "117517520327",
+    "firebase_url": "https://ropos2.firebaseio.com",
+    "project_id": "ropos2",
+    "storage_bucket": "ropos2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:117517520327:android:ef9cf90ff332baa0929de2",
+        "android_client_info": {
+          "package_name": "pasindu.dev.classie.ro_pos2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "117517520327-7cfuakhpcp0fhcq2k529eto0min2ab1i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pasindu.dev.classie.ro_pos2",
+            "certificate_hash": "b5c2f97d82155e1e4f5153740f928836e9242b97"
+          }
+        },
+        {
+          "client_id": "117517520327-hhajp711rl41qpsdcsvssevgferlc9sg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBF8yA-UJLJXtlXX1tN88vSZ9DYOqYh8I4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "117517520327-hhajp711rl41qpsdcsvssevgferlc9sg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

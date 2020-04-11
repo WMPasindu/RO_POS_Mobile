@@ -1,0 +1,6 @@
+
+dsquid:UselessImportCheck"9Remove this unused import 'androidx.annotation.Nullable'.(¾Èêš8õô€Ëú-
+dsquid:UselessImportCheck	"4Remove this unused import 'android.widget.TextView'.(„Ë‚ˆÿÿÿÿÿ8Ë‹Éú-
+ssquid:S1450 "\Remove the "sendViewModel" field and declare it as a local variable in the relevant methods.(›ˆæ¾
+Ksquid:S16040"(Make this anonymous inner class a lambda(¾ûíıÿÿÿÿ8õô€Ëú-
+squid:S00116#"]Rename this field "recycler_food_list" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ü—şùÿÿÿÿ8Çğ÷Êú-

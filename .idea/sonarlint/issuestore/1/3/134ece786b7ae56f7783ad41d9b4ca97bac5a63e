@@ -1,0 +1,8 @@
+
+5squid:S21765"Rename this class.(Â×žÖúÿÿÿÿ8éº„ôû-
+rsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(áÍË›
+zsquid:S00116:"[Rename this field "txt_comment_date" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(âÓð¡8éº„ôû-
+ysquid:S00116@"URename this field "rating_bar" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†ó†€ùÿÿÿÿ8éº„ôû-
+usquid:S00116>"VRename this field "txt_comment" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥á ò8éº„ôû-
+zsquid:S00116<"[Rename this field "txt_comment_name" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­ÚÇô8éº„ôû-
+Jsquid:S10687",Remove this unused "unbinder" private field.(ý«ƒ8éº„ôû-

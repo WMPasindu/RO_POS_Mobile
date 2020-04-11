@@ -1,0 +1,4 @@
+
+squid:S00116*"[Rename this field "recycler_comment" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÉòÜöıÿÿÿÿ8‚ñğû-
+Jsquid:S1068'",Remove this unused "unbinder" private field.(ı«ƒ8°ÿìğû-
+usquid:S1450'"WRemove the "unbinder" field and declare it as a local variable in the relevant methods.(ı«ƒ8Ê–ñû-

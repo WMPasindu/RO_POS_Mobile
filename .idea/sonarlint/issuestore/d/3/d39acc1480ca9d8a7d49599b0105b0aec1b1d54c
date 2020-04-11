@@ -1,0 +1,19 @@
+
+Hsquid:S1481À")Remove this unused "user" local variable.(—ÓÛ8éàÀö-
+usquid:S00117z"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é†¨ùÿÿÿÿ8Œ½íö-
+psquid:S00117y"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤‰¶Õ8ùŠğö-
+ysquid:S3008&"[Rename this field "APP_REQUEST_CODE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹ùÿŠ8ùŠğö-
+isquid:HiddenFieldCheck¨":Rename "dialog" which hides the field declared at line 41.(ËÚÇÒıÿÿÿÿ8ùŠğö-
+Usquid:S2696­"6Make the enclosing method "static" or remove this set.(ŸœÌñ8ñ¢€Şö-
+Qsquid:S1481¾"-Remove this unused "response" local variable.(«œÛÅıÿÿÿÿ8¡“»ö-
+usquid:S00117{"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Äš‚äûÿÿÿÿ8Œ½íö-
+wsquid:S26378"ZParameter 1 to this call is marked "androidx.annotation.NonNull" but null could be passed.(ÿ©š)8ùŠğö-
+zsquid:S1450+"]Remove the "cloudFunctions" field and declare it as a local variable in the relevant methods.(¿ ’8ÊÆö-
+psquid:S3776s"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(Ø¿³ä8ùŠğö-
+Osquid:S1068+"2Remove this unused "cloudFunctions" private field.(¿ ’8ÊÆö-
+lsquid:MaximumInheritanceDepth$"<This class has 6 parents which is greater than 5 authorized.(²Ú±8ùŠğö-
+`squid:S1854¾"<Remove this useless assignment to local variable "response".(«œÛÅıÿÿÿÿ8¡“»ö-
+Fsquid:S1604K"(Make this anonymous inner class a lambda(ÅÓòÃ8ùŠğö-
+Wsquid:S1854À"8Remove this useless assignment to local variable "user".(—ÓÛ8éàÀö-
+Osquid:S1602",Remove useless curly braces around statement(ê«æñùÿÿÿÿ8ùŠğö-
+fsquid:S1858}"H"getPhoneNumber" returns a string, there's no need to call "toString()".(ëÊá8œâöö-
