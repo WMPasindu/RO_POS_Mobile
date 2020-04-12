@@ -12,11 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import pasindu.dev.classie.ro_pos2.Callbacks.IRecyclerClickListener;
+import pasindu.dev.classie.ro_pos2.EventBus.PopularCategoryClick;
 import pasindu.dev.classie.ro_pos2.Model.PopularCategoryModel;
 import pasindu.dev.classie.ro_pos2.R;
 
@@ -41,6 +45,13 @@ public class PopularCategoriesAdapter extends RecyclerView.Adapter<PopularCatego
         Glide.with(context).load(popularCategoryModelList.get(position).getImage())
                 .into(holder.category_image);
         holder.txt_category_name.setText(popularCategoryModelList.get(position).getName());
+
+        holder.setListener(new IRecyclerClickListener() {
+            @Override
+            public void onItemClickListener(View view, int pos) {
+                EventBus.getDefault().postSticky(new PopularCategoryClick(popularCategoryModelList.get(pos)));
+            }
+        });
     }
 
     @Override
@@ -48,7 +59,7 @@ public class PopularCategoriesAdapter extends RecyclerView.Adapter<PopularCatego
         return popularCategoryModelList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         Unbinder unbinder;
 
         @BindView(R.id.txt_category_name)
@@ -56,9 +67,21 @@ public class PopularCategoriesAdapter extends RecyclerView.Adapter<PopularCatego
         @BindView(R.id.category_image)
         ImageView category_image;
 
+        IRecyclerClickListener listener;
+
+        public void setListener(IRecyclerClickListener listener) {
+            this.listener = listener;
+        }
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             unbinder = ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            listener.onItemClickListener(view, getAdapterPosition());
         }
     }
 }

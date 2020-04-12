@@ -1,5 +1,6 @@
 package pasindu.dev.classie.ro_pos2;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +23,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.util.Arrays;
 import java.util.List;
@@ -72,19 +79,34 @@ public class MainActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         dialog = new SpotsDialog.Builder().setCancelable(false).setContext(this).build();
         cloudFunctions = RetrofitCloudClient.getInstance().create(ICloudFunctions.class);
-        listener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+        listener = firebaseAuth -> {
 
-                if (user != null) {
+            Dexter.withActivity(this)
+                    .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    .withListener(new PermissionListener() {
+                        @Override
+                        public void onPermissionGranted(PermissionGrantedResponse response) {
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                            if (user != null) {
 //                    Already Login
-                    checkUserFormFirebase(user);
-                } else {
+                                checkUserFormFirebase(user);
+                            } else {
 //                    not login
-                    phoneLogin();
-                }
-            }
+                                phoneLogin();
+                            }
+                        }
+
+                        @Override
+                        public void onPermissionDenied(PermissionDeniedResponse response) {
+                            Toast.makeText(MainActivity.this, "You must enable this permission to use app", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+
+                        }
+                    }).check();
         };
     }
 
@@ -188,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == APP_REQUEST_CODE) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
-            if(requestCode == RESULT_OK) {
+            if (requestCode == RESULT_OK) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             } else {
                 Toast.makeText(this, "Failed to sign in", Toast.LENGTH_SHORT).show();

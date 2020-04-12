@@ -1,5 +1,12 @@
 package pasindu.dev.classie.ro_pos2.Common;
 
+import android.graphics.Typeface;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
+import android.widget.TextView;
+
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -51,5 +58,15 @@ public class Common {
                 result += addonModel.getPrice();
             return result;
         }
+    }
+
+    public static void seetSpanString(String weicomeNote, String name, TextView textView) {
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        builder.append(weicomeNote);
+        SpannableString spannableString = new SpannableString(name);
+        StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
+        spannableString.setSpan(boldSpan,0,name.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.append(spannableString);
+        textView.setText(builder,TextView.BufferType.SPANNABLE);
     }
 }
