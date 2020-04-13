@@ -229,6 +229,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
                                 Common.categorySelected = dataSnapshot.getValue(CategoryModel.class);
+                                Common.categorySelected.setMenu_id(dataSnapshot.getKey());
 //                                load foods
                                 FirebaseDatabase.getInstance()
                                         .getReference("Category")
@@ -243,6 +244,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                                 if (dataSnapshot.exists()) {
                                                     for (DataSnapshot itemSnapShot : dataSnapshot.getChildren()) {
                                                         Common.selectFood = itemSnapShot.getValue(FoodModel.class);
+                                                        Common.selectFood.setKey(itemSnapShot.getKey());
                                                     }
                                                     navController.navigate(R.id.nav_food_detail);
                                                 } else {
@@ -287,6 +289,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
                                 Common.categorySelected = dataSnapshot.getValue(CategoryModel.class);
+                                Common.categorySelected.setMenu_id(dataSnapshot.getKey());
 //                                load foods
                                 FirebaseDatabase.getInstance()
                                         .getReference("Category")
@@ -301,6 +304,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                                 if (dataSnapshot.exists()) {
                                                     for (DataSnapshot itemSnapShot : dataSnapshot.getChildren()) {
                                                         Common.selectFood = itemSnapShot.getValue(FoodModel.class);
+                                                        Common.selectFood.setKey(itemSnapShot.getKey());
                                                     }
                                                     navController.navigate(R.id.nav_food_detail);
                                                 } else {
