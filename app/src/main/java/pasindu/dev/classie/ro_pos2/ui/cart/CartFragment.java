@@ -1,7 +1,12 @@
 package pasindu.dev.classie.ro_pos2.ui.cart;
 
+import android.app.AlertDialog;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
+import android.os.Looper;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -9,6 +14,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,18 +27,34 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import pasindu.dev.classie.ro_pos2.Adapter.CartAdapter;
 import pasindu.dev.classie.ro_pos2.Common.Common;
@@ -43,15 +66,215 @@ import pasindu.dev.classie.ro_pos2.Database.LocalCartDataSource;
 import pasindu.dev.classie.ro_pos2.EventBus.CounterCartEvent;
 import pasindu.dev.classie.ro_pos2.EventBus.HideFABCart;
 import pasindu.dev.classie.ro_pos2.EventBus.UpdateItemInCart;
+import pasindu.dev.classie.ro_pos2.Model.OrderModel;
 import pasindu.dev.classie.ro_pos2.R;
 
 public class CartFragment extends Fragment {
 
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private Parcelable recyclerViewState;
     private CartViewModel cartViewModel;
     private Unbinder unbinder;
     private CartDataSource cartDataSource;
     private CartAdapter adapter;
+
+    LocationRequest locationRequest;
+    LocationCallback locationCallback;
+    FusedLocationProviderClient fusedLocationProviderClient;
+    Location currentLocation;
+
+    @OnClick(R.id.btn_place_order)
+    void onPlaceOrderClick() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("One more step!");
+
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_place_order, null);
+
+        EditText edt_address = (EditText) view.findViewById(R.id.edt_address);
+        EditText edt_comments = (EditText) view.findViewById(R.id.edt_comment);
+        TextView txt_address = (TextView) view.findViewById(R.id.txt_address_detail);
+
+        RadioButton rdi_home_address = (RadioButton) view.findViewById(R.id.rdi_home_address);
+        RadioButton rdi_other_address = (RadioButton) view.findViewById(R.id.rdi_other_address);
+        RadioButton rdi_deliver_this_address = (RadioButton) view.findViewById(R.id.rdi_deliver_this_address);
+
+        RadioButton rdi_cash_on_delivery = (RadioButton) view.findViewById(R.id.rdi_cod);
+        RadioButton rdi_braintree = (RadioButton) view.findViewById(R.id.rdi_braintree);
+
+//        data
+        edt_address.setText(Common.currentUser.getAddress()); // default set value as user given address when he/she sign_in
+
+        rdi_home_address.setOnCheckedChangeListener((compoundButton, b) -> {
+
+            if (b) {
+                edt_address.setText(Common.currentUser.getAddress());
+                txt_address.setVisibility(View.GONE);
+            }
+        });
+        rdi_other_address.setOnCheckedChangeListener((compoundButton, b) -> {
+
+            if (b) {
+                edt_address.setText(""); // clear
+                edt_address.setHint("Change your address");
+                txt_address.setVisibility(View.GONE);
+            }
+        });
+        rdi_deliver_this_address.setOnCheckedChangeListener((compoundButton, b) -> {
+
+            if (b) {
+                fusedLocationProviderClient.getLastLocation()
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(getContext(), "[Location Failed] " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            txt_address.setVisibility(View.GONE);
+                        }).addOnCompleteListener(task -> {
+                    String coordinates = new StringBuilder()
+                            .append(task.getResult().getLatitude())
+                            .append("/")
+                            .append(task.getResult().getLongitude()).toString();
+
+                    Single<String> singleAddress = Single.just(getAddressFromLatlan(task.getResult().getLatitude(),
+                            task.getResult().getLongitude()));
+
+                    Disposable disposable = singleAddress.subscribeWith(new DisposableSingleObserver<String>() {
+                        @Override
+                        public void onSuccess(String s) {
+                            edt_address.setText(coordinates);
+                            txt_address.setText(s);
+                            txt_address.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            edt_address.setText(coordinates);
+                            txt_address.setText("[Address error] " +e.getMessage());
+                            txt_address.setVisibility(View.VISIBLE);
+                        }
+                    });
+                });
+            }
+        });
+
+        builder.setView(view);
+        builder.setNegativeButton("NO", (dialogInterface, i) -> {
+            dialogInterface.dismiss();
+        }).setPositiveButton("YES", (dialogInterface, i) -> {
+            if(rdi_cash_on_delivery.isChecked())
+                paymentCOD(edt_address.getText().toString(), edt_comments.getText().toString());
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void paymentCOD(String address, String comment) {
+        compositeDisposable.add(cartDataSource.getAllCart(Common.currentUser.getUserId())
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(cartItems -> {
+
+//            get total price in cart items
+            cartDataSource.sumPriceInCart(Common.currentUser.getUserId())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new SingleObserver<Double>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(Double totalPrice) {
+                            double finalPrice = totalPrice;
+                            OrderModel order = new OrderModel();
+                            order.setUserId(Common.currentUser.getUserId());
+                            order.setUserName(Common.currentUser.getUserName());
+                            order.setUserphone(Common.currentUser.getPhone());
+                            order.setShippingAddress(address);
+                            order.setComments(comment);
+
+                            if(currentLocation != null) {
+                                order.setLatitude(currentLocation.getLatitude());
+                                order.setLongitude(currentLocation.getLongitude());
+                            } else {
+                                order.setLatitude(-0.1f);
+                                order.setLongitude(-0.1f);
+                            }
+
+                            order.setCartItemList(cartItems);
+                            order.setTotalPayment(totalPrice);
+                            order.setDiscount(0); // later modify this
+                            order.setFinalPayment(finalPrice);
+                            order.setCash_of_delivery(true);
+                            order.setTransactionId("Cash on Delivery");
+
+                            // submit this order to firebase
+                            writeOrderToFirebase(order);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Toast.makeText(getContext(), "[COD GET PRICE SUM]" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+        }, throwable -> {
+            Toast.makeText(getContext(), "[Payment COD]" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+        }));
+    }
+
+    private void writeOrderToFirebase(OrderModel order) {
+        FirebaseDatabase.getInstance()
+                .getReference(Common.ORDER_REF)
+                .child(Common.createOrderNumber()) // create order number with only digit
+                .setValue(order)
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "[CREATE ORDER NUMBER] " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+//              Write success
+                cartDataSource.cleanCart(Common.currentUser.getUserId())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new SingleObserver<Integer>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Integer integer) {
+                                Toast.makeText(getContext(), "Your Order Placed Successfully! ", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Toast.makeText(getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
+
+    }
+
+    private String getAddressFromLatlan(double latitude, double longitude) {
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        String result = "";
+        try {
+            List<Address> addressList = geocoder.getFromLocation(latitude,longitude,1);
+            if(addressList != null && addressList.size() > 0) {
+                Address address = addressList.get(0); // always getting first item
+                StringBuilder stringBuilder = new StringBuilder(address.getAddressLine(0));
+                result = stringBuilder.toString();
+            } else {
+                result = "Sorry! , Address not found";
+            }
+        } catch (Exception ex) {
+            result = ex.getMessage();
+        }
+        return result;
+    }
+
 
     @BindView(R.id.recycler_cart)
     RecyclerView recycler_cart;
@@ -85,7 +308,33 @@ public class CartFragment extends Fragment {
         });
         unbinder = ButterKnife.bind(this, root);
         initViews();
+        initLocation();
         return root;
+    }
+
+    private void initLocation() {
+        buildLocationRequest();
+        buildLocationCallback();
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+    }
+
+    private void buildLocationCallback() {
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                currentLocation = locationResult.getLastLocation();
+            }
+        };
+    }
+
+    private void buildLocationRequest() {
+        locationRequest = new LocationRequest();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(5000);
+        locationRequest.setFastestInterval(3000);
+        locationRequest.setSmallestDisplacement(10f);
     }
 
     private void initViews() {
@@ -147,7 +396,7 @@ public class CartFragment extends Fragment {
 
                     @Override
                     public void onSuccess(Double aDouble) {
-                        txt_total_price.setText(new StringBuilder().append(aDouble));
+                        txt_total_price.setText(new StringBuilder("Total: Rs.").append(aDouble));
                     }
 
                     @Override
@@ -208,7 +457,17 @@ public class CartFragment extends Fragment {
         cartViewModel.onStop();
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().unregister(this);
+        if (fusedLocationProviderClient != null)
+            fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        compositeDisposable.clear();
         super.onStop();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (fusedLocationProviderClient != null)
+            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
@@ -251,7 +510,7 @@ public class CartFragment extends Fragment {
 
                     @Override
                     public void onSuccess(Double price) {
-                        txt_total_price.setText(new StringBuilder("Total : ")
+                        txt_total_price.setText(new StringBuilder("Total : Rs. ")
                                 .append(Common.formatPrice(price)));
 
                     }

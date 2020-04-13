@@ -127,11 +127,11 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
         cartItem.setFoodPrice(Double.valueOf(String.valueOf(Common.selectFood.getPrice())));
         cartItem.setFoodQuantity(Integer.valueOf(number_button.getNumber()));
         cartItem.setFoodExtraPrice(Common.calculateExtraPrice(Common.selectFood.getUserSelectedSize(), Common.selectFood.getUserSelectedAddon()));
-        if(Common.selectFood.getUserSelectedAddon() != null)
+        if (Common.selectFood.getUserSelectedAddon() != null)
             cartItem.setFoodAddon(new Gson().toJson(Common.selectFood.getUserSelectedAddon()));
         else
             cartItem.setFoodAddon("Default");
-        if(Common.selectFood.getUserSelectedSize() != null)
+        if (Common.selectFood.getUserSelectedSize() != null)
             cartItem.setFoodSize(new Gson().toJson(Common.selectFood.getUserSelectedSize()));
         else
             cartItem.setFoodSize("Default");
@@ -150,7 +150,7 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
 
                     @Override
                     public void onSuccess(CartItem cartItemFromDB) {
-                        if(cartItemFromDB.equals(cartItem)) {
+                        if (cartItemFromDB.equals(cartItem)) {
                             cartItemFromDB.setFoodExtraPrice(cartItem.getFoodExtraPrice());
                             cartItemFromDB.setFoodAddon(cartItem.getFoodAddon());
                             cartItemFromDB.setFoodSize(cartItem.getFoodSize());
@@ -172,7 +172,7 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
 
                                         @Override
                                         public void onError(Throwable e) {
-                                            Toast.makeText(getContext(), "[UPDATE CART]"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "[UPDATE CART]" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                         }
                                     });
                         } else {
@@ -182,7 +182,7 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
                                     .subscribe(() -> {
                                         Toast.makeText(getContext(), "Add to Cart success", Toast.LENGTH_SHORT).show();
                                         EventBus.getDefault().postSticky(new CounterCartEvent(true));
-                                    },throwable -> {
+                                    }, throwable -> {
                                         Toast.makeText(getContext(), "[CART ERROR]" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
                                     }));
                         }
@@ -190,18 +190,18 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
 
                     @Override
                     public void onError(Throwable e) {
-                        if(e.getMessage().contains("empty")) {
+                        if (e.getMessage().contains("empty")) {
                             compositeDisposable.add(cartDataSource.insertOrReplaceAll(cartItem)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(() -> {
                                         Toast.makeText(getContext(), "Add to Cart success", Toast.LENGTH_SHORT).show();
                                         EventBus.getDefault().postSticky(new CounterCartEvent(true));
-                                    },throwable -> {
+                                    }, throwable -> {
                                         Toast.makeText(getContext(), "[CART ERROR]" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
                                     }));
                         } else
-                            Toast.makeText(getContext(), "[GET CART]"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "[GET CART]" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -320,9 +320,8 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
                 });
                 chip_group_user_selected_addon.addView(chip);
             }
-        } else if (Common.selectFood.getUserSelectedAddon().size() == 0) {
+        } else
             chip_group_user_selected_addon.removeAllViews();
-        }
     }
 
     private void submitRatingToFirebase(CommentsModel commentsModel) {
@@ -363,13 +362,11 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
                             double sumRating = foodModel.getRatingValue() + ratingValue;
                             long ratingCount = foodModel.getRatingCount() + 1;
 
-                            double result = sumRating / ratingCount;
-
                             Map<String, Object> updateData = new HashMap<>();
-                            updateData.put("ratingValue", result);
+                            updateData.put("ratingValue", sumRating);
                             updateData.put("ratingCount", ratingCount);
 
-                            foodModel.setRatingValue(result);
+                            foodModel.setRatingValue(sumRating);
                             foodModel.setRatingCount(ratingCount);
 
                             dataSnapshot.getRef()
@@ -403,7 +400,7 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
         food_description.setText(new StringBuilder(foodModel.getDescription()));
 
         if (foodModel.getRatingValue() != null)
-            ratingBar.setRating(foodModel.getRatingValue().floatValue());
+            ratingBar.setRating(foodModel.getRatingValue().floatValue() / foodModel.getRatingCount());
 
         ((AppCompatActivity) getActivity())
                 .getSupportActionBar()
@@ -445,7 +442,8 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
                 totalPrice += Double.parseDouble(addonModel.getPrice().toString());
 
 //        size
-        totalPrice += Double.parseDouble(Common.selectFood.getUserSelectedSize().getPrice().toString());
+        if (Common.selectFood.getUserSelectedSize() != null)
+            totalPrice += Double.parseDouble(Common.selectFood.getUserSelectedSize().getPrice().toString());
 
         displayPrice = totalPrice * (Integer.parseInt(number_button.getNumber()));
         displayPrice = Math.round(displayPrice * 100.0 / 100.0);

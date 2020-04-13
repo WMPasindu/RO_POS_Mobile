@@ -8,14 +8,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.asksira.loopingviewpager.LoopingPagerAdapter;
-import com.asksira.loopingviewpager.LoopingViewPager;
 import com.bumptech.glide.Glide;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import pasindu.dev.classie.ro_pos2.EventBus.BestDealsItemClick;
 import pasindu.dev.classie.ro_pos2.Model.BestDealsModel;
 import pasindu.dev.classie.ro_pos2.R;
 
@@ -43,5 +45,9 @@ public class BestDealsAdapter extends LoopingPagerAdapter<BestDealsModel> {
 //        set data
         Glide.with(convertView).load(itemList.get(listPosition).getImage()).into(img_best_deals);
         txt_best_deals.setText(itemList.get(listPosition).getName());
+
+        convertView.setOnClickListener(view -> {
+            EventBus.getDefault().postSticky(new BestDealsItemClick(itemList.get(listPosition)));
+        });
     }
 }
