@@ -320,9 +320,8 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
                 });
                 chip_group_user_selected_addon.addView(chip);
             }
-        } else if (Common.selectFood.getUserSelectedAddon().size() == 0) {
+        } else
             chip_group_user_selected_addon.removeAllViews();
-        }
     }
 
     private void submitRatingToFirebase(CommentsModel commentsModel) {
